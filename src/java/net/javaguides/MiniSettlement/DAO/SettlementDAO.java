@@ -151,18 +151,20 @@ public class SettlementDAO implements SettlementInterface {
     }
 
     @Override
-    public void markAsSettled(int merchantId) {
+    public boolean markAsSettled(int merchantId) {
         String sql = "UPDATE transaction SET settlement_status = 'SETTLED' WHERE merchant_id = ?";
 
         try (Connection con = dbContext.DBConnection.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, merchantId);
-            ps.executeUpdate();
+              int rows = ps.executeUpdate();
+            return rows > 0;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 }

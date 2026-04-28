@@ -12,5 +12,5 @@ public interface SettlementInterface {
     void updateSettlement(Settlement settlement);
     void deleteSettlement(int id);
     float getPendingByMerchant(int merchantId);
-    void markAsSettled(int merchantId); 
+    boolean markAsSettled(int merchantId); 
 }

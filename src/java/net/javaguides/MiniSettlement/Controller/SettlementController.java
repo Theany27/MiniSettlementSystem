@@ -1,15 +1,19 @@
 package net.javaguides.MiniSettlement.Controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
+import javax.faces.bean.SessionScoped;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import net.javaguides.MiniSettlement.DAO.SettlementDAO;
 import net.javaguides.MiniSettlement.DAO.SettlementInterface;
 import net.javaguides.MiniSettlement.Models.Settlement;
+import net.javaguides.MiniSettlement.Models.User;
 
 @WebServlet("/settlement")
 public class SettlementController extends HttpServlet {
@@ -95,35 +99,63 @@ public class SettlementController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-            try {
-                System.out.println("doPost settlement Start");
-                int merchantId = Integer.parseInt(req.getParameter("id"));
 
-                float total = setIn.getPendingByMerchant(merchantId);
+        resp.setContentType("text/plain");
 
-                float fee = total * 0.02f;
-                float net = total - fee;
+        try {
 
-                Settlement s = new Settlement();
-                s.setMerchantId(merchantId);
-                s.setTotalAmount(total);
-                s.setFee(fee);
-                s.setNetAmount(net);
-                System.out.println("Merchant id: " + s.getMerchantId());
-                System.out.println("Total Amount: " + s.getTotalAmount());
-                System.out.println("Fee: " + s.getFee());
-                System.out.println("Net Amount: " + s.getNetAmount());
+            System.out.println("🔥 doPost settlement Start");
 
-                setIn.createSettlement(s);
+            int merchantId = Integer.parseInt(req.getParameter("id"));
 
-                setIn.markAsSettled(merchantId);
+            float total = setIn.getPendingByMerchant(merchantId);
+            float fee = total * 0.02f;
+            float net = total - fee;
 
-                resp.setContentType("text/plain");
+            Settlement s = new Settlement();
+            s.setMerchantId(merchantId);
+            s.setTotalAmount(total);
+            s.setFee(fee);
+            s.setNetAmount(net);
+            s.setCreatedAt(LocalDateTime.now());
+
+            System.out.println("Merchant id: " + merchantId);
+            System.out.println("Total: " + total);
+
+            // ✅ SAVE FIRST
+            setIn.createSettlement(s);
+
+            // ✅ UPDATE STATUS
+            boolean success = setIn.markAsSettled(merchantId);
+            
+            if (success) {
+
+                String chatId = "1299629761";
+
+                String message
+                        = "━━━━━━━━━━━━━━━\n"
+                        + "✅ SETTLEMENT SUCCESS\n"
+                        + "━━━━━━━━━━━━━━━\n\n"
+                        + "📄 ID: `" + merchantId + "`\n"
+                        + "💵 Total: $" + total + "\n"
+                        + "💰 Fee: $" + fee + "\n"
+                        + "💎 Net: $" + net + "\n"
+                        + "📅 Time: " + s.getCreatedAt() + "\n"
+                        + "━━━━━━━━━━━━━━━";
+
+                TelegramService.sendMessage(chatId, message);
+
                 resp.getWriter().write("settled");
 
-                System.out.println("doPost End");
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } else {
+                resp.getWriter().write("error");
             }
+
+            System.out.println("🔥 doPost End");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            resp.getWriter().write("ERROR: " + ex.getMessage());
+        }
     }
 }

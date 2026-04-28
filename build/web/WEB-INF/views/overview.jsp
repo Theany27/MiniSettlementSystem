@@ -18,6 +18,5 @@
                 <canvas id="myChart" height="100"></canvas>
             </div>
         </div>
-
     </body>
 </html>
