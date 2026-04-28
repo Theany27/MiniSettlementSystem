@@ -24,7 +24,7 @@ public class AuthFilterController implements Filter {
 
         String path = req.getRequestURI().substring(req.getContextPath().length());
 
-        if (path.contains("login") || path.contains("register")) {
+        if (path.contains("/login") || path.contains("/register")) {
             chain.doFilter(request, response);
             return;
         }
@@ -42,7 +42,7 @@ public class AuthFilterController implements Filter {
             return;
         }
 
-        if (session != null) {
+        if (role != null) {
             chain.doFilter(request, response);
         } else {
             res.sendRedirect(req.getContextPath() + "/login");
