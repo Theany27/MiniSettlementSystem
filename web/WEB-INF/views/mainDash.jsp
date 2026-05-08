@@ -82,7 +82,7 @@
                     <div class="d-flex justify-content-center"> 
                         <div>
                             <img src="https://www.acledabank.com.kh/kh/assets/layout/logo3.png" width="170px" height="45px"/> 
-                            <h4 class="text-white mt-2 tanchetText">TANCHET</h4> 
+                            <h4 class="text-white mt-2 tanchetText">TOANCHET</h4> 
                         </div>
                     </div>
 
@@ -167,7 +167,7 @@
 
             // default page
             $(document).ready(function () {
-                loadPage("merchant");
+                loadPage("overview");
             });
 
 

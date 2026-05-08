@@ -38,7 +38,7 @@
     </head>
     <body>
         <div class="d-flex justify-content-between align-item-center mb-3">
-            <h2>Merchant Lists</h2>
+            <h2>Merchant List</h2>
             <button id="openModalBtn" class="text-white border-none rounded-pill btnaddnew" ${role == 'viewer' ? 'disabled' : ''}>Add new merchant</button>
         </div>
         <div id="alertBox"></div>
