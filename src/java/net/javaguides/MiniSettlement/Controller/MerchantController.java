@@ -1,6 +1,7 @@
 package net.javaguides.MiniSettlement.Controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,7 +50,7 @@ public class MerchantController extends HttpServlet {
                     request.getRequestDispatcher("/WEB-INF/views/merchant.jsp").forward(request, response);
                     break;
 
-                case "edit":
+                case "edit":    
                     System.out.println("Edit action - getting ID");
 
                     String idParam = request.getParameter("id");
@@ -152,7 +153,10 @@ public class MerchantController extends HttpServlet {
             // FIX 1: use "id" not "merchant_id"
             String idParam = request.getParameter("id");
             System.out.println("ID param: " + idParam);
-
+            String hour = request.getParameter("confirmCutoff");
+            LocalDateTime time = LocalDateTime.parse(hour);
+            System.out.println("settle time:" + time);
+            
             int id = 0;
             if (idParam != null && !idParam.isEmpty()) {
                 id = Integer.parseInt(idParam);

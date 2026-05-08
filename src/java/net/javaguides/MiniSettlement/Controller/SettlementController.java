@@ -123,7 +123,12 @@ public class SettlementController extends HttpServlet {
             System.out.println("Total: " + total);
 
             // ✅ SAVE FIRST
-            setIn.createSettlement(s);
+            if(total == 0 ){
+                resp.getWriter().write("don't have money to settle!!");
+                return;
+            }else{
+                setIn.createSettlement(s);
+            }
 
             // ✅ UPDATE STATUS
             boolean success = setIn.markAsSettled(merchantId);

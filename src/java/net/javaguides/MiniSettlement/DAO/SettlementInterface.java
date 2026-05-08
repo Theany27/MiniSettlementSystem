@@ -3,7 +3,6 @@ package net.javaguides.MiniSettlement.DAO;
 
 import java.util.List;
 import net.javaguides.MiniSettlement.Models.Settlement;
-import net.javaguides.MiniSettlement.Models.Transaction;
 
 public interface SettlementInterface {
     void createSettlement(Settlement settlement);

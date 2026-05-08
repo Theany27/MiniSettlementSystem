@@ -18,8 +18,6 @@
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
         <style>
             body {
                 background: #f4f6f9;
@@ -122,12 +120,9 @@
                             Logout
                         </button>
                     </div>
-
                     <!-- DYNAMIC CONTENT -->
                     <div id="main-content"></div>
-
                 </div>
-
             </div>
         </div>
 

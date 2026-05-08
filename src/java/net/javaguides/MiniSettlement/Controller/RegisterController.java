@@ -12,7 +12,6 @@ import net.javaguides.MiniSettlement.DAO.UserDAO;
 
 @WebServlet("/register")
 public class RegisterController extends HttpServlet{
-    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
