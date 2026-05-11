@@ -54,7 +54,7 @@
                          style="height:47%;">
 
                         <h5>Total Pending</h5>
-                        <h1 class="fw-bold text-warning">25</h1>
+                        <h1 class="fw-bold text-warning" id="totalPending">0</h1>
 
                     </div>
 
@@ -63,7 +63,7 @@
                          style="height:47%;">
 
                         <h5>Total Transaction</h5>
-                        <h1 class="fw-bold text-success">150</h1>
+                        <h1 class="fw-bold text-success"id="totalSettle">0</h1>
 
                     </div>
 
@@ -74,63 +74,84 @@
         </div>
 
         <script>
+
             $(document).ready(function () {
 
-                // wait a little before rendering
-                setTimeout(function () {
+                $.ajax({
+                    url: "merchant",
+                    type: "GET",
+                    data: {
+                        action: "getTotalCountPendingNSettle"
+                    },
 
-                    Chart.register(ChartDataLabels);
+                    success: function (data) {
 
-                    const ctx = document.getElementById('myChart');
+                        console.log("Server data:", data);
 
-                    new Chart(ctx, {
-                        type: 'pie',
+                        let result = data.trim().split(",");
 
-                        data: {
-                            labels: ['Settlement', 'Pending'],
-                            datasets: [{
-                                    data: [71, 29],
-                                    backgroundColor: [
-                                        '#4CAF8A',
-                                        '#FFB74D'
-                                    ],
-                                    borderColor: '#fff',
-                                    borderWidth: 2
-                                }]
-                        },
+                        let pending = parseInt(result[0]);
+                        let settled = parseInt(result[1]);
 
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
+                        $("#totalPending").text(pending);
+                        $("#totalSettle").text(settled);
 
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Settlement Overview',
-                                    font: {
-                                        size: 20
-                                    }
-                                },
+                        Chart.register(ChartDataLabels);
 
-                                legend: {
-                                    position: 'bottom'
-                                },
+                        const ctx = document.getElementById('myChart');
 
-                                datalabels: {
-                                    color: '#fff',
-                                    font: {
-                                        size: 16,
-                                        weight: 'bold'
+                        new Chart(ctx, {
+                            type: 'pie',
+
+                            data: {
+                                labels: ['Settlement', 'Pending'],
+                                datasets: [{
+                                        data: [settled, pending], // ✅ REAL DATA HERE
+                                        backgroundColor: [
+                                            '#4CAF8A',
+                                            '#FFB74D'
+                                        ],
+                                        borderColor: '#fff',
+                                        borderWidth: 2
+                                    }]
+                            },
+
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Settlement Overview',
+                                        font: {
+                                            size: 20
+                                        }
                                     },
-                                    formatter: function (value) {
-                                        return value + '%';
+
+                                    legend: {
+                                        position: 'bottom'
+                                    },
+
+                                    datalabels: {
+                                        color: '#fff',
+                                        font: {
+                                            size: 16,
+                                            weight: 'bold'
+                                        },
+                                        formatter: function (value) {
+                                            return value;
+                                        }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    },
 
-                }, 300);
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
 
             });
         </script>

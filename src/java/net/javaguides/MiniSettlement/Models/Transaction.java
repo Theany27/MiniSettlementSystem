@@ -13,10 +13,12 @@ public class Transaction {
     private String settlementStatus;
     private String merchantName;
     private float TotalAmount;
+    private int pendingCount;
+    private int settlementCount;
     
     public Transaction(){}
     
-    public Transaction(int transactionId,int merchantId,float amount,String status,LocalDateTime createdAt,String settlementStatus,String merchantName,float TotalAmount){
+    public Transaction(int transactionId,int merchantId,float amount,String status,LocalDateTime createdAt,String settlementStatus,String merchantName,float TotalAmount,int pendingCount, int settlementCount){
         this.transactionId = transactionId;
         this.merchantId = merchantId;
         this.amount = amount;
@@ -25,6 +27,8 @@ public class Transaction {
         this.settlementStatus = settlementStatus;
         this.merchantName = merchantName;
         this.TotalAmount = TotalAmount;
+        this.pendingCount = pendingCount;
+        this.settlementCount = settlementCount;
     }
     
     public int getTransactionId(){return transactionId;}
@@ -49,6 +53,11 @@ public class Transaction {
     }
     public void setCreatedAt(LocalDateTime createdAt){this.createdAt = createdAt;}
     
+    public int getPendingCount(){return pendingCount;}
+    public void setPendingCount(int pendingCount){this.pendingCount = pendingCount;}
+    
+    public int getSettlementCount(){return settlementCount;}
+    public void setSettlementCount(int settlementCount){this.settlementCount = settlementCount;}
     
     public String getMerchantName(){return merchantName;}
     public void setMerchantName(String merchantName){this.merchantName = merchantName;}

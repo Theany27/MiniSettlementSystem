@@ -50,7 +50,7 @@ public class MerchantController extends HttpServlet {
                     request.getRequestDispatcher("/WEB-INF/views/merchant.jsp").forward(request, response);
                     break;
 
-                case "edit":    
+                case "edit":
                     System.out.println("Edit action - getting ID");
 
                     String idParam = request.getParameter("id");
@@ -62,7 +62,7 @@ public class MerchantController extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     String json
                             = "{"
-                            + "\"id\":" + merchant.getMerchant_id()+ ","
+                            + "\"id\":" + merchant.getMerchant_id() + ","
                             + "\"name\":\"" + merchant.getName() + "\","
                             + "\"email\":\"" + merchant.getEmail() + "\","
                             + "\"phone\":\"" + merchant.getPhone() + "\","
@@ -115,10 +115,37 @@ public class MerchantController extends HttpServlet {
                     response.getWriter().write(jsons.toString());
                     break;
 
+//                case "getTotalCountPendingNSettle":
+//                    System.out.println("List action - getting Count Of pending and settle");
+//                    List<Transaction> totalCount = merchantInterface.CountPendingNSettle();
+//                    HttpSession getSession = request.getSession(false);
+//                    request.setAttribute("role", getSession.getAttribute("role"));  
+//                    request.setAttribute("getTotalCount", totalCount);
+//                    request.getRequestDispatcher("/WEB-INF/views/overview.jsp").forward(request, response);
+                case "getTotalCountPendingNSettle":
+
+                    List<Transaction> totalCount = merchantInterface.CountPendingNSettle();
+
+                    response.setContentType("text/plain");
+
+                    if (!totalCount.isEmpty()) {
+
+                        Transaction t = totalCount.get(0);
+
+                        response.getWriter().write(
+                                t.getPendingCount() + ","
+                                + t.getSettlementCount()
+                        );
+                        System.out.println("Pending total: " + t.getPendingCount());
+                        System.out.println("Pending total: " + t.getSettlementCount());
+
+                    }
+
+                    return;
+
                 default:
                     System.out.println("List action - getting all merchants");
                     List<Merchant> list = merchantInterface.getAllMerchants();
-                    // pass the role to JSP so it can show/hide buttons
                     HttpSession session = request.getSession(false);
                     request.setAttribute("role", session.getAttribute("role"));
                     request.setAttribute("merchantList", list);
@@ -156,7 +183,7 @@ public class MerchantController extends HttpServlet {
             String hour = request.getParameter("confirmCutoff");
             LocalDateTime time = LocalDateTime.parse(hour);
             System.out.println("settle time:" + time);
-            
+
             int id = 0;
             if (idParam != null && !idParam.isEmpty()) {
                 id = Integer.parseInt(idParam);

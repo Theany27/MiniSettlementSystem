@@ -268,7 +268,7 @@
                                         "<td>" + t.merchantName + "</td>" +
                                         "<td>" + t.amount + "</td>" +
                                         "<td>" + t.status + "</td>" +
-                                        "<td>" + t.settlementStatus + "</td>" +
+                                        "<td>" + t.settlementStatus+ "</td>" +
                                         "<td>" + t.createdAt + "</td>" +
                                         "</tr>";
                             });

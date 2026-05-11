@@ -11,4 +11,5 @@ public interface MerchantInterface {
     List<Transaction> getTransactionsByMerchantId(int merchantId);
     void updateMerchant(Merchant merchant);
     void deleteMerchant(int id);
+    List<Transaction> CountPendingNSettle();
 }
