@@ -33,11 +33,9 @@ public class AuthFilterController implements Filter {
         String role = (session != null) ? (String) session.getAttribute("role") : null;
         
         System.out.println("get role:"+role);
-        // use req.getMethod() not request.getMethod()
         String method = req.getMethod();
 
         if ("viewer".equals(role) && "admin".equals(role) && !method.equals("GET")) {
-            // use res.sendError() not response.sendError()
             res.sendError(HttpServletResponse.SC_FORBIDDEN, "You only have view access.");
             return;
         }

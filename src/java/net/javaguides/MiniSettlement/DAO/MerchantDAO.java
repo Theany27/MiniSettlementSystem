@@ -18,7 +18,6 @@ public class MerchantDAO implements MerchantInterface {
 
         try (Connection conn = dbContext.DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
-//           ps.setInt(0, merchant.getId());
             ps.setString(1, merchant.getName());
             ps.setString(2, merchant.getEmail());
             ps.setString(3, merchant.getPhone());
@@ -47,8 +46,6 @@ public class MerchantDAO implements MerchantInterface {
                 merchant.setEmail(rs.getString("email"));
                 merchant.setPhone(rs.getString("phone"));
                 merchant.setStatus(rs.getString("status"));
-//                merchant.setCreated_at(rs.getTimestamp("created_at"));
-
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -73,7 +70,6 @@ public class MerchantDAO implements MerchantInterface {
                 m.setEmail(rs.getString("email"));
                 m.setPhone(rs.getString("phone"));
                 m.setStatus(rs.getString("status"));
-//                m.setCreated_at(rs.getTimestamp("created_at"));
                 Timestamp timestamp = rs.getTimestamp("created_at");
                 if (timestamp != null) {
                     m.setCreated_at(timestamp.toLocalDateTime());
@@ -95,7 +91,6 @@ public class MerchantDAO implements MerchantInterface {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         return list;
     }
 
@@ -109,13 +104,6 @@ public class MerchantDAO implements MerchantInterface {
             ps.setString(3, merchant.getPhone());
             ps.setString(4, merchant.getStatus());
             ps.setInt(5, merchant.getMerchant_id());
-            //            ps.setTimestamp(5, Timestamp.valueOf(merchant.getCreated_at()));
-//            if (merchant.getCreated_at() != null) {
-//                ps.setTimestamp(5, Timestamp.valueOf(merchant.getCreated_at()));
-//            } else {
-//                ps.setTimestamp(5, null); // or CURRENT_TIMESTAMP
-//            }
-//            
             ps.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -128,10 +116,8 @@ public class MerchantDAO implements MerchantInterface {
 
         try (Connection conn = dbContext.DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, id);
             ps.executeUpdate();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -147,7 +133,7 @@ public class MerchantDAO implements MerchantInterface {
                 + "FROM transaction t\n"
                 + "LEFT JOIN merchant m ON t.merchant_id = m.merchant_id\n"
                 + "WHERE t.merchant_id = ?\n"
-                + "  AND t.settlement_status = 'PENDING'\n"
+                + " AND t.settlement_status = 'PENDING'\n"
                 + "ORDER BY t.created_at DESC;";
 
         try (Connection con = dbContext.DBConnection.getConnection();
@@ -164,7 +150,7 @@ public class MerchantDAO implements MerchantInterface {
                 t.setStatus(rs.getString("status"));
                 t.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
                 t.setSettlementStatus(rs.getString("settlement_status"));
-                t.setMerchantName(rs.getString("merchant_name")); // if you add field
+                t.setMerchantName(rs.getString("merchant_name"));
                 t.setTotalAmount(rs.getFloat("total_amount"));
 
                 list.add(t);
@@ -180,8 +166,8 @@ public class MerchantDAO implements MerchantInterface {
     public List<Transaction> CountPendingNSettle() {
         List<Transaction> list = new ArrayList<>();
         String sql = "SELECT \n"
-                + "    SUM(CASE WHEN settlement_status = 'PENDING' THEN 1 ELSE 0 END) AS pending_count,\n"
-                + "    SUM(CASE WHEN settlement_status = 'SETTLED' THEN 1 ELSE 0 END) AS settled_count\n"
+                + "SUM(CASE WHEN settlement_status = 'PENDING' THEN 1 ELSE 0 END) AS pending_count,\n"
+                + "SUM(CASE WHEN settlement_status = 'SETTLED' THEN 1 ELSE 0 END) AS settled_count\n"
                 + "FROM transaction";
         
         try(Connection conn = dbContext.DBConnection.getConnection();
@@ -191,10 +177,8 @@ public class MerchantDAO implements MerchantInterface {
                 Transaction tran = new Transaction();
                 tran.setPendingCount(rs.getInt("pending_count"));
                 tran.setSettlementCount(rs.getInt("settled_count"));
-                
                 list.add(tran);
             }
-            
         }catch(Exception ex){
             ex.printStackTrace();
         }

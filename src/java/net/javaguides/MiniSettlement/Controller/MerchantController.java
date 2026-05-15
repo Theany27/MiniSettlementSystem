@@ -122,6 +122,7 @@ public class MerchantController extends HttpServlet {
 //                    request.setAttribute("role", getSession.getAttribute("role"));  
 //                    request.setAttribute("getTotalCount", totalCount);
 //                    request.getRequestDispatcher("/WEB-INF/views/overview.jsp").forward(request, response);
+                    
                 case "getTotalCountPendingNSettle":
 
                     List<Transaction> totalCount = merchantInterface.CountPendingNSettle();
@@ -134,11 +135,10 @@ public class MerchantController extends HttpServlet {
 
                         response.getWriter().write(
                                 t.getPendingCount() + ","
-                                + t.getSettlementCount()
+                                + t.getSettlementCount()+toString()
                         );
                         System.out.println("Pending total: " + t.getPendingCount());
                         System.out.println("Pending total: " + t.getSettlementCount());
-
                     }
 
                     return;

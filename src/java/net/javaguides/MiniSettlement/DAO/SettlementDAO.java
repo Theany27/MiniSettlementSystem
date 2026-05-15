@@ -92,11 +92,9 @@ public class SettlementDAO implements SettlementInterface {
 
                 list.add(set);
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         return list;
     }
 
@@ -123,7 +121,6 @@ public class SettlementDAO implements SettlementInterface {
                 PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
