@@ -76,7 +76,6 @@ public class MerchantDAO implements MerchantInterface {
                 } else {
                     m.setCreated_at(LocalDateTime.now());
                 }
-
                 System.out.println("Merchant ID: " + m.getMerchant_id());
                 System.out.println("Name: " + m.getName());
                 System.out.println("Email: " + m.getEmail());

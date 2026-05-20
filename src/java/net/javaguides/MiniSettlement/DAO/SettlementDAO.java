@@ -87,9 +87,7 @@ public class SettlementDAO implements SettlementInterface {
                 System.out.println("Fee: " + set.getFee());
                 System.out.println("Net Amount: " + set.getNetAmount());
                 System.out.println("Created at: " + set.getCreatedAt());
-
                 System.out.println("-------------------");
-
                 list.add(set);
             }
         } catch (Exception ex) {

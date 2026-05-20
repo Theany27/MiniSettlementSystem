@@ -110,6 +110,72 @@
                 height:50px;
 
             }
+            .input-group {
+                position: relative;
+                margin-bottom: 20px;
+            }
+
+            .input-group input {
+                width: 100%;
+                padding: 14px 16px;
+                border: 1px solid #dcdcdc;
+                border-radius: 12px;
+                background: #f9fafb;
+                font-size: 15px;
+                outline: none;
+                transition: all 0.25s ease;
+                box-sizing: border-box;
+            }
+
+            .input-group label {
+                position: absolute;
+                top: 50%;
+                left: 14px;
+                transform: translateY(-50%);
+                background: #f9fafb;
+                padding: 0 5px;
+                color: #888;
+                font-size: 14px;
+                pointer-events: none;
+                transition: 0.2s ease;
+            }
+
+            .input-group input:focus {
+                border-color: #2563eb;
+                background: #fff;
+                box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+            }
+
+            .input-group input:focus + label,
+            .input-group input:not(:placeholder-shown) + label {
+                top: 0;
+                left: 12px;
+                font-size: 12px;
+                color: #2563eb;
+                background: #fff;
+            }
+
+            .input-group input::placeholder {
+                color: transparent;
+            }
+            .btn-register-link{
+                width: 100%;
+                display: block;
+                text-align: center;
+                padding: 10px;
+                margin-top: 10px;
+                border-radius: 5px;
+                border: 1px solid #007bff;
+                text-decoration: none;
+                color: #007bff;
+                box-sizing: border-box;
+                transition: 0.2s;
+            }
+
+            .btn-register-link:hover{
+                background: #007bff;
+                color: white;
+            }
         </style>
     </head>
     <body>
@@ -119,17 +185,57 @@
         <div class="login-box">
 
             <!-- LEFT LOGIN -->
-            <div class="login-form">
-                <h2>Login</h2>
+            <!--            <div class="login-form">
+                            <h2>Login</h2>
+            
+                            <input type="text" class="form-control" id="username" placeholder="Username">
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+            
+                            <a href="#" class="forgot">Forgot Password?</a>
+            
+                            <button class="btn-login" id="loginBtn">Login</button>
+                            <button class="btn-register"><a href="<%= request.getContextPath()%>/register">Register</a></button>
+                        </div>-->
+            <form id="loginForm">
 
-                <input type="text" class="form-control" id="username" placeholder="Username">
-                <input type="password" class="form-control" id="password" placeholder="Password">
+                <div class="login-form" style="width: 80%; height: 90%">
 
-                <a href="#" class="forgot">Forgot Password?</a>
+                    <h2>Login</h2>
 
-                <button class="btn-login" id="loginBtn">Login</button>
-                <button class="btn-register"><a href="<%= request.getContextPath()%>/register">Register</a></button>
-            </div>
+                    <div class="input-group">
+                        <input type="text"
+                               id="username"
+                               name="username"
+                               placeholder="Username"
+                               autocomplete="username"
+                               required>
+                        <label for="username">Username</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               placeholder="Password"
+                               autocomplete="current-password"
+                               required>
+                        <label for="password">Password</label>
+                    </div>
+
+                    <a href="#" class="forgot">Forgot Password?</a>
+
+                    <button type="submit" class="btn-login">
+                        Login
+                    </button>
+
+                    <a href="<%= request.getContextPath()%>/register"
+                       class="btn-register-link">
+                        Register
+                    </a>
+
+                </div>
+
+            </form>
 
             <!-- RIGHT WELCOME -->
             <div class="welcome">
@@ -138,15 +244,6 @@
             </div>
 
         </div>
-        <!--        <h2>Login</h2>
-        
-                <input type="text" id="username" placeholder="Username"><br>
-                <input type="password" id="password" placeholder="Password"><br>
-                <button id="loginBtn">Login</button>
-        
-                <p id="error" style="color:red;"></p>
-        
-                <a href="<%= request.getContextPath()%>/register">Register</a>-->
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -154,41 +251,52 @@
 
         <script>
 
-            $("#loginBtn").click(function () {
+            $("#loginForm").submit(function (e) {
+
+                e.preventDefault();
 
                 $.ajax({
                     url: "login",
                     type: "POST",
-                    dataType: "json", // ✅ IMPORTANT (auto parse JSON)
+                    dataType: "json",
+
                     data: {
                         username: $("#username").val(),
                         password: $("#password").val()
                     },
+
                     success: function (data) {
 
-                        // ❌ NO JSON.parse needed
-                        console.log("data" + data);
+                        console.log(data);
+
                         if (data.status === "success") {
 
-                            window.location.href = "<%= request.getContextPath()%>/mainDash";
+                            window.location.href =
+                                    "<%= request.getContextPath()%>/mainDash";
 
                         } else {
+
                             Swal.fire({
-                                title: "Something Wrong!",
-                                text: "Check Username or Pssword please!.",
+                                title: "Login Failed",
+                                text: "Check username or password.",
                                 icon: "error"
                             });
+
                         }
                     },
+
                     error: function (xhr, status, error) {
+
                         console.log("AJAX Error:", error);
-                        $("#msg")
-                                .css("color", "red")
-                                .text("Server error!");
+
+                        Swal.fire({
+                            title: "Server Error",
+                            text: "Please try again later.",
+                            icon: "error"
+                        });
                     }
                 });
             });
-
         </script>
     </body>
 </html>

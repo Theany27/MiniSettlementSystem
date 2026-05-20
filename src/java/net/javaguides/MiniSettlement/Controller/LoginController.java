@@ -42,7 +42,7 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user.getUsername());
                 session.setAttribute("role", user.getRole());
-
+//                response.sendRedirect("/mainDash");
                 out.print("{\"status\":\"success\"}");
             } else {
                 out.print("{\"status\":\"error\",\"message\":\"Invalid credentials\"}");

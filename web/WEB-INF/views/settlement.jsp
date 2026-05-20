@@ -79,6 +79,11 @@
 //                        loadPage("settlement?action=delete&id=" + id);
 //                    }
 //                });
+
+
+                $(document).on("click","#openModalBtn", function(){
+                   alert("Hi there!"); 
+                });
                 $(document).off("click.delete").on("click.delete", ".deleteBtn", function () {
 
                     let id = $(this).data("id");
