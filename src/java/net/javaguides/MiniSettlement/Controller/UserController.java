@@ -66,7 +66,6 @@ public class UserController extends HttpServlet {
 
                     res.setContentType("application/json");
                     res.setCharacterEncoding("UTF-8");
-
                     String jsonEdit
                             = "{"
                             + "\"id\":" + user.getId() + ","
@@ -122,20 +121,24 @@ public class UserController extends HttpServlet {
         String role = req.getParameter("role");
 
         String idParam = req.getParameter("id");
-                    System.out.println("ID param: " + idParam);
+        System.out.println("ID param: " + idParam);
 
         int id = 0;
 
         if (idParam != null && !idParam.isEmpty()) {
             id = Integer.parseInt(idParam);
         }
-
         UserDAO dao = new UserDAO();
+//        EmailService email = new EmailService();
         boolean result;
+//        String user = null;
+
         System.out.println("id update:" + id);
         if (id == 0) {
             // INSERT
             result = dao.register(username, password, role);
+            System.out.println("has sent gmail!");
+            EmailService.sendFirstPassword(username,password);
         } else {
             // UPDATE
             result = dao.updateUser(id, username, password, role);

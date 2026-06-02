@@ -12,10 +12,13 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/waitme@1.19.0/waitMe.min.css">
+
 
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>    
+        <script src="https://cdn.jsdelivr.net/npm/waitme@1.19.0/waitMe.min.js"></script>
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -148,6 +151,12 @@
                     // REGISTER USER
                     $("form").submit(function (e) {
                         e.preventDefault(); // IMPORTANT (stop form submit)
+                        $("#main-content").waitMe({
+                            effect: 'bounce',
+                            text: 'Loading...',
+                            bg: 'rgba(255,255,255,0.7)',
+                            color: '#000'
+                        });
                         $.ajax({
                             url: $(this).attr("action"),
                             type: "POST",
@@ -160,6 +169,7 @@
                             data: $(this).serialize(),
                             success: function (data) {
                                 if (data.status === "success") {
+                                    $("#main-content").waitMe('hide');
                                     Swal.fire({
                                         title: "Register Successfully!",
                                         icon: "success"
@@ -184,6 +194,8 @@
                                 }
                             },
                             error: function (xhr, status, error) {
+                                $("#main-content").waitMe('hide');
+
                                 console.log("AJAX Error:", error);
 
                                 Swal.fire({

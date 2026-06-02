@@ -1,5 +1,6 @@
 package net.javaguides.MiniSettlement.DAO;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,17 +15,18 @@ public class MerchantDAO implements MerchantInterface {
 
     @Override
     public void insertMerchant(Merchant merchant) {
-        String sql = "INSERT INTO merchant(name, email, phone, status,created_at) VALUES (?, ?, ?, ?,?)";
+//        String sql = "INSERT INTO merchant(name, email, phone, status,created_at) VALUES (?, ?, ?, ?,?)";
+           String sql = "CALL insert_merchant_pro(?,?,?,?)";
 
         try (Connection conn = dbContext.DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, merchant.getName());
-            ps.setString(2, merchant.getEmail());
-            ps.setString(3, merchant.getPhone());
-            ps.setString(4, merchant.getStatus());
-            ps.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+                CallableStatement cls = conn.prepareCall(sql)) {
+            cls.setString(1, merchant.getName());
+            cls.setString(2, merchant.getEmail());
+            cls.setString(3, merchant.getPhone());
+            cls.setString(4, merchant.getStatus());
+//            cls.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
 
-            ps.executeUpdate();
+            cls.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -56,6 +58,7 @@ public class MerchantDAO implements MerchantInterface {
     @Override
     public List<Merchant> getAllMerchants() {
         String sql = "SELECT * FROM merchant ORDER BY created_at ASC";
+//          String sql = "CALL ";
         List<Merchant> list = new ArrayList<>();
 
         try (Connection conn = dbContext.DBConnection.getConnection();

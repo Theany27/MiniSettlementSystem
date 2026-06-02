@@ -36,14 +36,21 @@ public class LoginController extends HttpServlet {
 
             UserDAO dao = new UserDAO();
 
-//            boolean ok = dao.login(username, password);
-              User user = dao.login(username, password);
+            User user = dao.login(username, password);
             if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user.getUsername());
-                session.setAttribute("role", user.getRole());
+                if (user.getFirstLog() == 1) {
+                    HttpSession session2 = request.getSession(true);
+                    session2.setAttribute("user", user.getUsername());
+                    out.print("{\"status\":\"update\",\"message\":\"Fisrt Login Please Change password!\"}");
+                } else {
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("user", user.getUsername());
+                    session.setAttribute("role", user.getRole());
+                    session.setAttribute("firstLog", user.getFirstLog());
+                    out.print("{\"status\":\"success\"}");
+                }
 //                response.sendRedirect("/mainDash");
-                out.print("{\"status\":\"success\"}");
+
             } else {
                 out.print("{\"status\":\"error\",\"message\":\"Invalid credentials\"}");
             }

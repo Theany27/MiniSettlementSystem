@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Merchant Page</title>
+        <title>Merchants Page</title>
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -38,7 +38,7 @@
     </head>
     <body>
         <div class="d-flex justify-content-between align-item-center mb-3">
-            <h2>Merchant List</h2>
+            <h2>The Merchant</h2>
             <button id="openModalBtn" class="text-white border-none rounded-pill btnaddnew" ${role == 'viewer' ? 'disabled' : ''}>Add new merchant</button>
         </div>
         <div id="alertBox"></div>
@@ -105,7 +105,7 @@
                                 <input type="text" name="email" id="email" placeholder="Email" class="form-control mb-2">
 
                                 <input type="text" name="phone" id="phone" placeholder="Phone" class="form-control mb-2">
-
+                                
                                 <select name="status" id="status" class="form-control mb-2">
                                     <option value="ACTIVE">ACTIVE</option>
                                     <option value="SUSPENDED">SUSPENDED</option>
