@@ -110,7 +110,6 @@
 
                 <!-- MAIN -->
                 <div class="col-md-10 w-full">
-
                     <!--TOP BAR--> 
                     <div class="topbar d-flex justify-content-end align-items-center mb-3">
                         <!--<h4 id="page-title">Overview</h4>-->
@@ -126,8 +125,7 @@
             </div>
         </div>
 
-        <script>
-
+            <script>
             $(document).on("click", ".btnlogout", function () {
                 $.ajax({
                     url: "logout",

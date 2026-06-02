@@ -17,5 +17,7 @@ public interface UserInterface {
     User getUserById(int id);
     void UpdateUser(User user);
     void deleteUser(int id);
+    boolean UpdatePassword(String username,String userpass);
+    void expiredPassword();
     int count();
 }

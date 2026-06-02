@@ -176,6 +176,10 @@
                 background: #007bff;
                 color: white;
             }
+            #Loginresult{
+                color:red;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -201,7 +205,7 @@
                 <div class="login-form" style="width: 80%; height: 90%">
 
                     <h2>Login</h2>
-
+                    <h6 id="Loginresult"></h6>
                     <div class="input-group">
                         <input type="text"
                                id="username"
@@ -222,16 +226,13 @@
                         <label for="password">Password</label>
                     </div>
 
-                    <a href="#" class="forgot">Forgot Password?</a>
+                    <a href="<%= request.getContextPath()%>/register" class="forgot" id="forgot">Change Password?</a>
 
-                    <button type="submit" class="btn-login">
+                    <button type="submit" class="btn-login" id="btnLogin">
                         Login
                     </button>
 
-                    <a href="<%= request.getContextPath()%>/register"
-                       class="btn-register-link">
-                        Register
-                    </a>
+                    
 
                 </div>
 
@@ -250,6 +251,7 @@
 
 
         <script>
+            $("#forgot").hide();
 
             $("#loginForm").submit(function (e) {
 
@@ -259,7 +261,6 @@
                     url: "login",
                     type: "POST",
                     dataType: "json",
-
                     data: {
                         username: $("#username").val(),
                         password: $("#password").val()
@@ -270,30 +271,28 @@
                         console.log(data);
 
                         if (data.status === "success") {
-
                             window.location.href =
                                     "<%= request.getContextPath()%>/mainDash";
 
+                        } else if (data.status === "update") {
+                            $("#Loginresult").html(data.message);
+                            $("#forgot").show();
+                            $("#btnLogin").css("pointer-events", "none");
+                            return;
                         } else {
-
-                            Swal.fire({
-                                title: "Login Failed",
-                                text: "Check username or password.",
-                                icon: "error"
-                            });
-
+                            $("#Loginresult").html(data.message);
                         }
                     },
 
                     error: function (xhr, status, error) {
 
                         console.log("AJAX Error:", error);
-
-                        Swal.fire({
-                            title: "Server Error",
-                            text: "Please try again later.",
-                            icon: "error"
-                        });
+                        $("#Loginresult").html(error);
+//                        Swal.fire({
+//                            title: "Server Error",
+//                            text: "Please try again later.",
+//                            icon: "error"
+//                        });
                     }
                 });
             });

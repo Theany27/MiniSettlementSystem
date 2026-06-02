@@ -1,4 +1,3 @@
-
 package net.javaguides.MiniSettlement.DAO;
 
 import java.sql.Connection;
@@ -6,12 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.javaguides.MiniSettlement.Models.User;
 
+public class UserDAO implements UserInterface {
 
-public class UserDAO implements UserInterface{
-    
-    
     public boolean register(String username, String password, String role) {
         try (Connection conn = dbContext.DBConnection.getConnection()) {
 
@@ -26,11 +24,13 @@ public class UserDAO implements UserInterface{
             }
 
             // insert user
-            String insert = "INSERT INTO users(username,password,role) VALUES(?,?,?)";
+            String insert = "INSERT INTO users(username,password,role,firstlog) VALUES(?,?,?,?)";
             PreparedStatement ps2 = conn.prepareStatement(insert);
+            int firstlog = 1;
             ps2.setString(1, username);
             ps2.setString(2, password);
             ps2.setString(3, role);
+            ps2.setInt(4, firstlog);
             ps2.executeUpdate();
 
             return true;
@@ -40,24 +40,25 @@ public class UserDAO implements UserInterface{
         }
         return false;
     }
-    
+
     public boolean updateUser(int id, String username, String password, String role) {
-    try (Connection conn = dbContext.DBConnection.getConnection()) {
+        try (Connection conn = dbContext.DBConnection.getConnection()) {
 
-        String sql = "UPDATE users SET username=?, password=?, role=? WHERE id=?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, username);
-        ps.setString(2, password);
-        ps.setString(3, role);
-        ps.setInt(4, id);
+            String sql = "UPDATE users SET username=?, password=?, role=? WHERE id=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, role);
+            ps.setInt(4, id);
+//            ps.setBoolean(5, false);
 
-        return ps.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-    return false;
-}
 
 //    public boolean login(String username, String password) {
 //        try (Connection conn =dbContext.DBConnection.getConnection()) {
@@ -81,8 +82,8 @@ public class UserDAO implements UserInterface{
 
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
 
-        try (Connection conn =dbContext.DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dbContext.DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
             ps.setString(2, password);
@@ -95,6 +96,7 @@ public class UserDAO implements UserInterface{
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role")); // IMPORTANT: from DB
+                user.setFirstLog(rs.getInt("firstlog"));
             }
 
         } catch (Exception e) {
@@ -103,24 +105,25 @@ public class UserDAO implements UserInterface{
 
         return user; // null if not found
     }
-    
+
     @Override
-    public List<User> getAllUser(){
+    public List<User> getAllUser() {
         String sql = "SELECT * FROM users ORDER BY id ASC";
         List<User> users = new ArrayList<>();
-        try(Connection conn = dbContext.DBConnection.getConnection();
+        try (Connection conn = dbContext.DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()){
-            while(rs.next()){
+                ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
                 User u = new User();
                 u.setId(rs.getInt("id"));
                 u.setUsername(rs.getString("username"));
                 u.setPassword(rs.getString("password"));
                 u.setRole(rs.getString("role"));
+
                 users.add(u);
             }
-            
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return users;
@@ -141,6 +144,7 @@ public class UserDAO implements UserInterface{
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
+                user.setFirstLog(rs.getInt("firstlog"));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -192,5 +196,31 @@ public class UserDAO implements UserInterface{
 
         return 0;
     }
-    
+
+    @Override
+    public void expiredPassword() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean UpdatePassword(String username, String userpass) {
+        String sql = "UPDATE users SET password=?, firstlog=0 WHERE username=?";
+
+        try (Connection con = dbContext.DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, userpass); // password
+            ps.setString(2, username); // username
+
+            int rows = ps.executeUpdate();
+
+            System.out.println("Updated rows: " + rows);
+
+            return rows > 0;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 }
