@@ -35,7 +35,11 @@ public class RegisterController extends HttpServlet {
         boolean updated = dao.UpdatePassword(username, password);
 
         if (updated) {
-            out.print("{\"status\":\"success\",\"message\":\"Update Successfully!\"}");
+            if (updated == true) {
+                out.print("{\"status\":\"success\",\"message\":\"Update Successfully!\"}");
+            } else {
+                out.print("{\"status\":\"error\",\"message\":\"Update failed!\"}");
+            }
         } else {
             boolean registered = dao.register(username, password, role);
 

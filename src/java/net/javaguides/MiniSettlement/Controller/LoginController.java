@@ -2,6 +2,7 @@ package net.javaguides.MiniSettlement.Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,20 +38,30 @@ public class LoginController extends HttpServlet {
             UserDAO dao = new UserDAO();
 
             User user = dao.login(username, password);
+
             if (user != null) {
+                LocalDateTime expiryTime = user.getUpdated_at().plusDays(30);
                 if (user.getFirstLog() == 1) {
+
                     HttpSession session2 = request.getSession(true);
                     session2.setAttribute("user", user.getUsername());
                     out.print("{\"status\":\"update\",\"message\":\"Fisrt Login Please Change password!\"}");
+
+                } else if (LocalDateTime.now().isAfter(expiryTime)) {
+
+                    HttpSession session2 = request.getSession(true);
+                    session2.setAttribute("user", user.getUsername());
+                    out.print("{\"status\":\"update\",\"message\":\"Password Expired Please Change password!\"}");
+
                 } else {
+
                     HttpSession session = request.getSession(true);
                     session.setAttribute("user", user.getUsername());
                     session.setAttribute("role", user.getRole());
                     session.setAttribute("firstLog", user.getFirstLog());
                     out.print("{\"status\":\"success\"}");
-                }
-//                response.sendRedirect("/mainDash");
 
+                }
             } else {
                 out.print("{\"status\":\"error\",\"message\":\"Invalid credentials\"}");
             }

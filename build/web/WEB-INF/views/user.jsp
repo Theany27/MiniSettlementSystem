@@ -161,17 +161,13 @@
                             url: $(this).attr("action"),
                             type: "POST",
                             dataType: "json",
-//                            data: {
-//                                username: $("#username").val(),
-//                                password: $("#password").val(),
-//                                role: $("#role").val()
-//                            },
                             data: $(this).serialize(),
                             success: function (data) {
+                                console.log(data);
                                 if (data.status === "success") {
                                     $("#main-content").waitMe('hide');
                                     Swal.fire({
-                                        title: "Register Successfully!",
+                                        title: data.message,
                                         icon: "success"
                                     });
 //                                    $("#myModal").modal("hide");
@@ -186,11 +182,12 @@
                                     document.activeElement.blur();
                                     $("#main-content").load("user");
                                 } else {
-
+                                    $("#main-content").waitMe('hide');
                                     Swal.fire({
-                                        title: "Username already exists!",
+                                        title: data.message,
                                         icon: "error"
                                     });
+                                    return;
                                 }
                             },
                             error: function (xhr, status, error) {

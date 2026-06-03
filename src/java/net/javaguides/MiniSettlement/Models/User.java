@@ -13,6 +13,7 @@ public class User {
     private String password;
     private String confirmPass;
     private String role;
-    private LocalDateTime expiredPassword;
+    private int expiredPassword;
     private int FirstLog;
+    private LocalDateTime updated_at;
 }

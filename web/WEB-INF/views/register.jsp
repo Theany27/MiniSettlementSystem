@@ -197,8 +197,9 @@
                         <input type="text"
                                id="username"
                                name="username"
-                               placeholder="Username"
+                               placeholder="$username"
                                autocomplete="username"
+                               value="${sessionScope.user}"
                                required>
                         <label for="username">Username</label>
                     </div>
@@ -210,7 +211,7 @@
                                placeholder="Password"
                                autocomplete="current-password"
                                required>
-                        <label for="password">Password</label>
+                        <label for="password">Change Password</label>
                     </div>
 
 
@@ -248,7 +249,7 @@
                     },
                     success: function (data) {
                         console.log(data);
-
+                          
                         if (data.status === "success") {
                             $("#Loginresult").html(data.message).css({ color: "green" });
 
