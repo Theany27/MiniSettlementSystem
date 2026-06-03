@@ -13,7 +13,7 @@ import javax.mail.internet.*;
  */
 public class EmailService {
 
-    public static void sendFirstPassword(String username, String password) {
+    public static void sendFirstPassword(String username, String password, String role) {
 
         final String fromEmail = "theany8080@gmail.com";
         final String appPassword = "w u f l s q z p b l b d m q w z";
@@ -39,7 +39,7 @@ public class EmailService {
 
             message.setSubject("Your First Login Password");
 
-            message.setText("Welcome!\n\n  Dear username: "+username+"\n Your temporary password is: " + password
+            message.setText("Welcome!\n\n  Dear username: "+username+"\n Your temporary password is: " + password + "\n and Your role is: "+ role
                     + "\nPlease change it!!!.");
 
             Transport.send(message);

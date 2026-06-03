@@ -3,6 +3,8 @@ package net.javaguides.MiniSettlement.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +99,12 @@ public class UserDAO implements UserInterface {
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role")); // IMPORTANT: from DB
                 user.setFirstLog(rs.getInt("firstlog"));
+                Timestamp timestamp = rs.getTimestamp("updated_at");
+                if (timestamp != null) {
+                    user.setUpdated_at(timestamp.toLocalDateTime());
+                } else {
+                    user.setUpdated_at(LocalDateTime.now());
+                }
             }
 
         } catch (Exception e) {
@@ -204,11 +212,10 @@ public class UserDAO implements UserInterface {
 
     @Override
     public boolean UpdatePassword(String username, String userpass) {
-        String sql = "UPDATE users SET password=?, firstlog=0 WHERE username=?";
 
-        try (Connection con = dbContext.DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
-
+        try (Connection con = dbContext.DBConnection.getConnection();) {
+            String sql = "UPDATE users SET password=?, firstlog=0, updated_at=CURRENT_TIMESTAMP WHERE username=?";
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, userpass); // password
             ps.setString(2, username); // username
 

@@ -212,6 +212,7 @@
                                name="username"
                                placeholder="Username"
                                autocomplete="username"
+                               value="${sessionScope.user}"
                                required>
                         <label for="username">Username</label>
                     </div>
@@ -277,7 +278,6 @@
                         } else if (data.status === "update") {
                             $("#Loginresult").html(data.message);
                             $("#forgot").show();
-                            $("#btnLogin").css("pointer-events", "none");
                             return;
                         } else {
                             $("#Loginresult").html(data.message);

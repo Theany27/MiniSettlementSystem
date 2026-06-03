@@ -4,24 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Controller/LoginController.java</file>
+            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/DAO/MerchantInterface.java</file>
             <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/DAO/UserDAO.java</file>
             <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Controller/UserController.java</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/web/WEB-INF/Js/test.js</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/web/WEB-INF/views/merchant.jsp</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/DAO/UserInterface.java</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/web/WEB-INF/views/mainDash.jsp</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/web/WEB-INF/views/login.jsp</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/DAO/MerchantDAO.java</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Controller/mainDashboardController.java</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Controller/AuthFilterController.java</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/DAO/MerchantInterface.java</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Controller/TransactionController.java</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Controller/RegisterController.java</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Models/Transaction.java</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Controller/MerchantController.java</file>
             <file>file:/E:/JAVA_programming/MiniSettlement/web/WEB-INF/views/user.jsp</file>
-            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Models/Merchant.java</file>
+            <file>file:/E:/JAVA_programming/MiniSettlement/web/WEB-INF/views/login.jsp</file>
+            <file>file:/E:/JAVA_programming/MiniSettlement/web/WEB-INF/views/register.jsp</file>
+            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/dbContext/DBConnection.java</file>
             <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Models/User.java</file>
+            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/DAO/MerchantDAO.java</file>
+            <file>file:/E:/JAVA_programming/MiniSettlement/src/java/net/javaguides/MiniSettlement/Controller/AuthFilterController.java</file>
         </group>
     </open-files>
 </project-private>

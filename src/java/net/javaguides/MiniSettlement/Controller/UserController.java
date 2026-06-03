@@ -1,6 +1,7 @@
 package net.javaguides.MiniSettlement.Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -115,7 +116,10 @@ public class UserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
 
+        PrintWriter out = res.getWriter();
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String role = req.getParameter("role");
@@ -129,27 +133,31 @@ public class UserController extends HttpServlet {
             id = Integer.parseInt(idParam);
         }
         UserDAO dao = new UserDAO();
-//        EmailService email = new EmailService();
-        boolean result;
-//        String user = null;
 
         System.out.println("id update:" + id);
         if (id == 0) {
-            // INSERT
-            result = dao.register(username, password, role);
-            System.out.println("has sent gmail!");
-            EmailService.sendFirstPassword(username,password);
-        } else {
-            // UPDATE
-            result = dao.updateUser(id, username, password, role);
-        }
 
-        res.setContentType("application/json");
+            boolean result = dao.register(username, password, role);
 
-        if (result) {
-            res.getWriter().write("{\"status\":\"success\"}");
+            if (result) {
+                
+                EmailService.sendFirstPassword(username, password, role);
+                System.out.println("has inserted");
+                out.print("{\"status\":\"success\",\"message\":\"Insert Successfully!\"}");
+            } else {
+                System.out.println("do not add");
+                out.print("{\"status\":\"error\",\"message\":\"User already exist!\"}");
+            }
+
         } else {
-            res.getWriter().write("{\"status\":\"error\"}");
+
+            boolean Upresult = dao.updateUser(id, username, password, role);
+
+            if (Upresult) {
+                out.print("{\"status\":\"success\",\"message\":\"Update Successfully!\"}");
+            } else {
+                out.print("{\"status\":\"error\",\"message\":\"Can not Update!\"}");
+            }
         }
     }
 }
